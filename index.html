@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>SpendWise | Student Expense Tracker</title>
+
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+
+<body>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+
+    <h2 class="logo">spendwise<span>.</span></h2>
+
+    <p class="menu-label">MENU</p>
+
+    <nav>
+      <a href="#dashboard" class="nav-link active">▦ Dashboard</a>
+      <a href="#transactions" class="nav-link">↔ Transactions</a>
+      <a href="#budget" class="nav-link">◎ My Budget</a>
+      <a href="#insights" class="nav-link">▥ Spending Insights</a>
+    </nav>
+
+    <div class="student-tip">
+      <span>✦ STUDENT TIP</span>
+      <p>Small savings today can make a big difference tomorrow.</p>
+    </div>
+
+    <div class="profile">
+      <div class="avatar">S</div>
+      <div>
+        <strong>Student Account</strong>
+        <small>Personal wallet</small>
+      </div>
+    </div>
+
+  </aside>
+
+
+  <!-- Main Dashboard -->
+  <main class="main-content" id="dashboard">
+
+    <!-- Topbar -->
+    <header class="topbar">
+
+      <div>
+        <p class="eyebrow">YOUR MONEY, YOUR CONTROL</p>
+        <h1>Student Dashboard</h1>
+        <p id="today-date" class="muted"></p>
+      </div>
+
+      <div class="topbar-actions">
+
+        <button type="button" id="theme-toggle" class="theme-btn">
+          🌙 Dark Mode
+        </button>
+
+        <button type="button" class="primary-btn" id="add-transaction-btn">
+          + Add Transaction
+        </button>
+
+      </div>
+
+    </header>
+
+
+    <!-- Transaction Form -->
+    <section class="form-card" id="transaction-form" hidden>
+
+      <div class="form-heading">
+        <div>
+          <p class="eyebrow">RECORD YOUR MONEY</p>
+          <h2>Add a transaction</h2>
+        </div>
+
+        <button type="button" class="close-btn"
+          id="cancel-transaction" aria-label="Close form">
+          ✕
+        </button>
+      </div>
+
+      <form id="expense-form">
+
+        <div class="form-grid">
+
+          <label>
+            Transaction title
+            <input type="text" id="transaction-title"
+              placeholder="e.g. Canteen lunch" required>
+          </label>
+
+          <label>
+            Amount (₹)
+            <input type="number" id="transaction-amount"
+              placeholder="e.g. 150" min="1" step="0.01" required>
+          </label>
+
+          <label>
+            Category
+            <select id="transaction-category" required>
+              <option value="Food">Food & Canteen</option>
+              <option value="Travel">Travel</option>
+              <option value="Education">Education</option>
+              <option value="Shopping">Shopping</option>
+              <option value="Subscriptions">Subscriptions</option>
+              <option value="Other">Other</option>
+              <option value="Income">Pocket Money / Income</option>
+            </select>
+          </label>
+
+          <label>
+            Transaction type
+            <select id="transaction-type" required>
+              <option value="expense">Expense</option>
+              <option value="income">Income</option>
+            </select>
+          </label>
+
+        </div>
+
+        <div class="form-actions">
+
+          <button type="button" class="secondary-btn" id="cancel-form-btn">
+            Cancel
+          </button>
+
+          <button type="submit" class="primary-btn">
+            Save Transaction
+          </button>
+
+        </div>
+
+        <p id="form-message" class="form-message" aria-live="polite"></p>
+
+      </form>
+    </section>
+
+
+    <!-- Welcome Banner -->
+    <section class="welcome-banner">
+
+      <div>
+        <p class="eyebrow light-text">YOUR MONTHLY OVERVIEW</p>
+        <h2>Make every rupee count.</h2>
+        <p>Keep track of your spending and stay on top of your student budget.</p>
+      </div>
+
+      <div class="balance-info">
+        <span>Available budget</span>
+        <h2 id="total-balance">₹4,250</h2>
+        <p id="budget-remaining">You are within your budget</p>
+      </div>
+
+    </section>
+
+
+    <!-- Summary Cards -->
+    <section class="summary-grid">
+
+      <!-- Income Card -->
+      <article class="summary-card">
+
+        <div class="card-top">
+          <span class="card-icon income-icon">↙</span>
+          <span class="card-label">TOTAL INCOME</span>
+        </div>
+
+        <h2 id="total-income">₹2,000</h2>
+        <p class="muted">Money received this month</p>
+
+      </article>
+
+
+      <!-- Expenses Card -->
+      <article class="summary-card">
+
+        <div class="card-top">
+          <span class="card-icon expense-icon">↗</span>
+          <span class="card-label">TOTAL EXPENSES</span>
+        </div>
+
+        <h2 id="total-expenses">₹850</h2>
+        <p class="muted">Money spent this month</p>
+
+      </article>
+
+
+      <!-- Budget Card -->
+      <article class="summary-card" id="budget">
+
+        <div class="card-top">
+          <span class="card-icon budget-icon">◎</span>
+          <span class="card-label">MONTHLY BUDGET</span>
+        </div>
+
+        <h2 id="budget-spent">₹3,750 / ₹8,000</h2>
+
+        <div class="budget-input-row">
+
+          <input
+            type="number"
+            id="monthly-budget-input"
+            min="1"
+            step="1"
+            placeholder="Enter your budget"
+          >
+
+          <button type="button" id="save-budget-btn" class="primary-btn">
+            Save
+          </button>
+
+        </div>
+
+        <p id="budget-feedback" aria-live="polite"></p>
+
+        <div class="progress-track">
+          <div class="progress-fill" id="budget-progress"></div>
+        </div>
+
+        <p class="muted" id="budget-message">
+          Budget tracking is ready
+        </p>
+
+      </article>
+
+    </section>
+
+
+    <!-- Transactions and Insights -->
+    <section class="content-grid">
+
+      <!-- Transactions Section -->
+      <article class="panel" id="transactions">
+
+        <div class="panel-heading">
+
+          <div>
+            <p class="eyebrow">WHERE YOUR MONEY GOES</p>
+            <h2>Recent transactions</h2>
+          </div>
+
+          <span class="small-badge">Latest activity</span>
+
+        </div>
+
+
+        <!-- Search and Filters -->
+        <div class="transaction-filters">
+
+          <input
+            type="search"
+            id="transaction-search"
+            placeholder="Search transactions..."
+            aria-label="Search transactions by title"
+          >
+
+          <select id="category-filter" aria-label="Filter by category">
+            <option value="all">All categories</option>
+            <option value="Food">Food</option>
+            <option value="Travel">Travel</option>
+            <option value="Education">Education</option>
+            <option value="Shopping">Shopping</option>
+            <option value="Subscriptions">Subscriptions</option>
+            <option value="Other">Other</option>
+            <option value="Income">Income</option>
+          </select>
+
+          <select id="type-filter" aria-label="Filter by transaction type">
+            <option value="all">All types</option>
+            <option value="income">Income</option>
+            <option value="expense">Expense</option>
+          </select>
+          <select id="sort-filter">
+            <option value="newest">Newest First</option>
+            <option value="oldest">Oldest First</option>
+            <option value="high-low">Highest Amount</option>
+            <option value="low-high">Lowest Amount</option>
+          </select>
+
+          <button type="button" id="clear-filters" class="secondary-btn">
+            Clear
+          </button>
+          <button type="button" id="export-csv" class="primary-btn">
+            ↓ Export CSV
+          </button>
+
+        </div>
+
+        <p id="filter-result-count" class="muted"></p>
+
+        <div id="transaction-list" class="transaction-list"></div>
+
+      </article>
+
+
+      <!-- Spending Insights -->
+      <article class="panel" id="insights">
+
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">YOUR SPENDING HABITS</p>
+            <h2>Spending snapshot</h2>
+          </div>
+        </div>
+
+        <div id="category-list" class="category-list"></div>
+
+        <div class="insight-box">
+          <span>✦ SMART INSIGHT</span>
+
+          <p id="spending-insight">
+            Add transactions to discover where your money goes.
+          </p>
+        </div>
+
+      </article>
+
+    </section>
+
+
+    <!-- Footer -->
+    <footer>
+      SpendWise · Built for smarter student spending.
+    </footer>
+
+  </main>
+
+</body>
+</html>
